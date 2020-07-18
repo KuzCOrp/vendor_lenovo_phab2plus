@@ -1,0 +1,203 @@
+v1.4.r2, Bug fix version of version 1.4
+[artf81942]
+- Added EnableAECOutput function to be able to set AEC reference when voice use case is selected.
+
+v1.4.r1, Bug fix version of version 1.4
+artf60647 : Updated example code with optimized process of start function.
+artf75822 : Updated when return value of lxScriboRegister function is non-zero, then check if it's real error or not.
+artf69104 : Adding disabling of I2S output when power down device
+artf77791 : potential risk during profile switching
+artf78453 : Wrong checking in tfa98xxClose function
+artf75822 : return value of lxScriboRegister function is non-zero even when communication is ok
+artf75362 : replaced functioncall tfa98xxReadRegister() with Tfa98xxReadRegister16() in functions tfaRunIsCold() and tfaRunIsPwdn()
+artf76210 : climax --reset and --calibrate options gives Bad_Parameter
+artf75397 : Updated Andriod.mk for climax android build
+artf69695 : --volume works only in combination with --start
+artf65984 : name fixes to match tfa98xx host software architecture and design document
+
+v1.4, climax v3.3, srv v2.1, tfa v3.12, hal 3.0 (2014-xx)
+artf60647 : Updated example code to be as example code for integration interface.
+artf67390 : tfa98xx_cnt_loadfile is redesigned, function is split up, removed duplicate code
+artf67376 : Fix memory leak when a cnt file is loaded multiple times!
+artf65570 : Added a diagnostic test that checks if the DRC feature is matching the device
+artf63860 : When target tty cannot be opened climax returned exit code 1
+artf63180 : fixed that nxpTfa98xxVersions crashes if the buffer size is too short.
+artf65628 : Removed the message "no file found of type ..." is not useful, and is also not correct
+artf66775 : removed the function tfaContShowItem and tfaContShowProfile. Renamed tfaContShowItem_charbuffer 
+artf66774 : ini file register patch key reverses mask and value. Also made mask optional
+artf58697 : Added --tone, to turn off the tone detection
+SC42246:EQ C-code
+> --diag
+SC42640: DAI support for 97 and 91B
+
+v1.3, climax v3.2, srv v2.0, tfa v3.10, hal 3.0 (2014-wk37)
+artf62020 : create a function that strips the customer header 
+artf59955 : tfa9888 bitfield descriptor cannot be deal with regs above 128
+artf62467 : create new ini keywords: inputsel, outputsel, progmconfig
+artf57890 : introduce 97N1B device code. Update the TFA Device code for reciever mode. 
+artf63014 : introduce 90B device code. Update the register def to introduce PDM_SEL and PDM_OUTPUT_EN. Ignore the 90 PLL fix for 90B - as HW is fixed. 
+artf60713 : Mute function would keep DCDC always in follower mode
+artf61604 : introduce --maximus or -m to allow user to distinguish the types of maximus files for climax commands
+artf61422 : Added the possibility to modify the cnt header with bin2hdr.
+artf61422 : Added the function tfaGetAbsolutePath. Now splitparms also works with relative path.
+artf61422 : ini_preformat is only generated with verbose. And is also with relative path.
+artf59264 : merge the DSP messaging framework into trunk
+artf61547 : seperated the utility functions and moved to tfaContUtil.c, which need not be part of customer integration. it is required to support tools
+artf61171 : Updated the bin2hdr function so that you are able to add header to a max2 speaker file
+artf61073 : Added a function called tfaContGetHdr. This will copy the header into a struct for pyco
+artf61163 : Changed the checking of file size. And vstep size problems.
+artf60927 : Changed the function tfaContShowContainer to return a char buffer.
+artf60928 : Changed the function contGetDevs. Removed the count profile bug
+artf58848 : Removed tfa98xxConfigLength and replaced it with tfa98xx_dsp_config_parameter_count
+artf58678 : Updated dumpmodel, now if the .cnt file is stereo then for both speakers it is printed. (also .cnt in combination with --slave works now)
+artf58678 : Updated the climax record command so that when passing a stereo .cnt file the left and right slave are recorded. 
+artf56280 : Removed ymem, pmem and iomem from climax --full-help (and therefore also from the code).
+artf56280 : Changed the function tfa98xxWriteRegister the function returns the error now.
+artf56280 : Changed the function tfa98xxReadRegister so that the value is passed as argument and the function returns error now.
+artf60476 : Removed the function: speaker_given, this is not working, and also not used.
+artf60476 : Removed the function: cliWriteSpeakerFile, because it is not used (this is linked to the --tcoef command).
+SC42640: DAI support for 97 and 90B
+
+v1.2, climax v3.1, srv v1.9, tfa v3.9, hal 3.0 (2014-wk27)
+- Fixed the slave address assigning issue.
+    Now --slave=(slave address) function can work properly.
+- Using service layer with dll
+    merged serviceLayer and srv. Also removed the srv project
+- Fixd bugs which can cause crahs with Windows OS, climax 32 bit application.
+- Updated I2C interface to be used for Linux 32bit.
+
+v1.1, climax v3.1, srv v1.8, tfa v3.5, hal 2.5 (2014-wk23)
+- Fixed adding preset header issue.
+- Fixed calibration once issue.
+- Fixed --diag
+
+v1.0, climax v3.0, srv v1.7, tfa v3.4, hal 2.5 (2014-wk13)
+SC39371: SW: replace scons with andriode make for API and Climax
+-- removed all the linux makefile. Andriod.mk is still used and linux uses scons. 
+SC39534: implement and test the service layer
+-- implemented header and container file functionality in service layer
+-- consolidated key functionality within tfa98xxRuntime and tfaContainer (driver handling) 
+-- printing of container file content occurs ONLY when -l and -b option and not in combination with other commands. 
+-- all climax commands need container file
+-- basic Win x64 build
+SC39599: add calculation fucntion for the DRC threshold values in SRV layer
+SC40904: implement C code for EQ and DRC conversion
+-- introduced tfa98xxDRC.c for DRC parameter handling 
+SC43453: cleanup unused sample rate in eq file
+> --save function where filename.type.bin is needed.
+- SC39508 add customer info fields and container file management
+-- Due to container file introduction, number of climax commands are obolete or re-defined
+- SC40922 write re0 for Tfa9895 device
+- SC40107 coding style improvements
+-- split the tfa functionality into files tfaAPI.[hc] and tfa98xx.[hc]. The tfa98xx.[hc] conforms to linux coding style. 
+
+v0.5 release, climax v2.5, srv v1.6, tfa v3.2, hal 2.4 (2013-wk45):
+- SC42653 : Added header implementation and vstep implementation.
+            Using tfaContainer.c implementation for the header implementation and handling of vstep file.
+            Added loading vstep implementation in nxpTfa98xx.c.
+            Synchronized implementation of using parameter file with header to example code.
+- SC40346 : Added saving/loading DRC contents by climax.
+- Updated the implementation for sleep time for windows for correct 1ms calculation.
+
+v0.4 release, climax v2.3, srv v1.5, tfa v3.1, hal 2.4 (2013-wk47):
+- Updated patch file.
+- Fixed the wrong comment of register DCMCC.
+- Naming convention of DSP bypass function for kernel usage.
+- Aligned example code with run time service layer code of coldstartup.
+
+v0.3 release, climax v2.3, srv v1.4, tfa v3.0, hal 2.4 (2013-wk45):
+- SC41151: Added implementation to set PLL to double locking frequency to solve PLL not stable issue.
+- SC41800: Added the assigning of value for short on Mips.
+- SC41151: Updated the start up sequence to put DSP to reset state before power up device.
+- SC38987: DSP bypass function for TFA98xx
+    The DSP bypass will also bypass the battery safeguard. Note: in the current implementation only 8 ohm speaker is supported.
+- SC39766: Removed the unnecessary register definition for dummy.
+    Updated register definitions.
+
+v0.2 BETA release, climax v2.3, srv v1.3, tfa v3.0, hal 2.4 (2013-wk39):
+- SC40492: Update example code to use service layer code.
+    Service layer is separated and implemented in srv/ 
+    Added app/exTfa98xx/src/stereo_app.c for stereo service layer example
+- SC40382: replace logarithmic function in calcBiquadCoeff() with bit operation
+- SC40107: for coding style conform to checkpatch.pl guidelines
+    The basic Linux coding style is applied to TFA API layer. The CamelCase and typeDef warnings are ignored.     
+    This functional changes and impacts many customer. The proper solution is to implement a wrapper for API.
+    This will be investigated as preparation for Linux driver development in Q4. 
+- SC38987: DSP bypass function for 9887
+    This functionality is under test for beta release.
+- SC40045: Floating point arithmetic from API
+    Moved the FP to service layer. This is intermediate solution. 
+    The proper solution is to remove FP values from the file and replace with values to send directly to device.
+    This to be investigated in next release and requires major upgrade of Pico and device files. 
+- SC40383: incorporate feedback from customer into API code
+    Reduce number of warnings. Improve code readability.
+- SC39508: add customer info fields and container file management
+    Preparation for header introduction in parameter files    
+- SC39750: For --calshow, tCoefA is printed only when in verbose mode
+    
+nxpTfaHost SW v0.1, climax v2.2, srv v1.2, tfa v2.9, hal 2.3 (2013-wk35):
+- SC39371               SW: replace scons with andriode make for API and Climax
+- SC39455               SW: replace the current API folder struc and merge climax and introduce makefile for builds      
+    - The old API software and the Climax sotware is merged into one software tree call the NXP TFA Host Software
+    - The new layout folders and source code is explained in doc/README.txt
+- SC39750               HTC requests tcoefA reading     
+    - tfa98xxGetTcoefA function introduced in tfa98xxCalibration.c in service layer
+- SC39765               enhanced dummy for 95
+    - can simulate Tfa9895 device via -ddummy in climax
+- SC39470               climax: Loading config file for different devices
+    - deployed and implemented a function that returns the actual config size in nxpTfa98xx.c in service layer
+
+FOR OLD API LAYOUT
+==================
+API version is 2.7 and HAL version is 2.2 (2013-wk30):
+- SC39368: fix the Tfa98xxStereo example build and test it
+- SC39063: remove Release64 and Debug64 from API build configuration for MS VS 2010 Windows build
+- All registers and bit definitions are generated and implemented in the code. (Tfa98xx_genregs.h). This is partly related to SC38737.
+- Tfa98xx_DspReset function added for control DSP reset state.  
+   checks AREFS, CLKS amd MTPB when coldstarted 
+   checks AMPS when warm
+- if-def macros for generating individual releases.
+- call Tfa98xx_DspSystemStable in checkICROMversion to check if DSP subsys is ready
+- extraction script update for building and testing on linux and windows
+- removed inttypes.h , replaced by stdint.h
+- temporarily disabled translate i2c error, requires enhancement of erro handling
+- introduce API dll build in MS VS 2010
+- updated the API installer to include documentation
+- API installer does not automatically install scribo. seperate scribo installer handled this.
+- seperate build of HAL and API is done
+- Tfa98xx/lib and Tfa98xx_hal/lib contain the linux x64 library binaries. Pleaes build API and HAL using scons to create library in other platforms 
+
+TFA9890
+- Tfa98xx_genregs.h also contains TFA9890 specific definitions, these need to go to a seperate TFA9890 only include.
+- Added TFA9890 specifics implementations and wrappers for Tfa98xx_DspReset and Tfa98xx_DspSystemStable.
+- Tfa9890_DspReset
+   temporarily disables clock gating for DSP_reset
+- Tfa9890_DspSystemStable
+   extra check for the contents of non-zero in TMP registers to mark the subsystem ready (refer to TFA9890 datasheet)
+- update initTfa90N1B12.c with new  specifics
+
+TFA9887B
+- Added as new device. This is replacement for 95. 95 is 87B with DRC feature. 
+
+TFA9895
+- This device has been removed as a named type. (replaced by TFA9887B)
+- The DRC feature is enabled whenever the feature is reported to be supported by the device
+
+HAL
+- The HAL now directly communicate with the Scribo dll and the crdi2c32.dll has become obsolete. 
+  In order to achieve this the low level interface was changed, this means that the slave address as 
+  the 1st parameter and the buffer starts with the sub address.
+ 
+Examples
+- the new functions from runtime (service layer) are used in the coldstart 
+- removed scanning for devices (hardcoded for device 0x36 on devkit)
+- fixed and renamed exTfa98xxStereo
+- exTfa98xxStereo does not calibrate, it expects calibrated devices
+- removed exTfa9887 and exCli (unused)
+- Removed DSP reset code from setOtc function
+
+
+Tests:
+- performed extraction of Tfa9890 code and executed the examples (mono and stereo) on Linux x64 and Windows/Cygwin x64
+- API tested on Andriod (panda board) via climax 
+- tested on Rasberry Pi ARM Linux x32 

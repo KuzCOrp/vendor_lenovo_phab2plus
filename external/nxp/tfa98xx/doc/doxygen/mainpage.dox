@@ -1,0 +1,44 @@
+/*! \mainpage Software API description
+ *
+ * The SW API will be delivered as portable reference C source code. This code depends on an I2C driver.  
+ * An abstraction layer is used to allow easy porting to other platforms.
+ * 
+ * <b>The API consists of 2 parts:</b>
+ *
+ * <b>•  Controlling the SW running on the DSP: </b>
+ * This can be called only when the TFA98XX is in the “DSP Running” state”.  
+ * These API calls will have the form DspXxx.
+ * These calls are not re-entrant as they consist of multiple I2C actions and a state machine running on the TFA98XX DSP.
+ *
+ * <b>•  Controlling the I2C HW registers: </b>
+ * These can be called at any moment.
+ *  
+ * The figure below shows the TFA98XX states and transitions, controlled by the SW API.
+ *
+ * \image html state_overview.jpg
+ *
+ *
+ * <b>•  PowerDown:</b> Startup state when first powered.  Also the state when there is no I2S clock.
+ *
+ * <b>•  Starting:</b> When leaving PowerDown state, it takes roughly 34 samples worth of time to lock on to the PLL.
+ *
+ * <b>•  DSP Configuring:</b> When the DSP is started, first some parameters must be loaded before any audio processing can start: which speaker and preset to use.
+ *
+ * <b>•  Amplifier Starting:</b> When all settings are configured, the amplifier can be started.  It takes roughly 32 samples worth of time before the amplifier is fully operational.
+ *
+ * <b>•  Calibrating:</b> The first time after booting, the speaker DC impedance must be measured.
+ *
+ * <b>•  Amplifier Running:</b> In this state any audio sent on I2S is processed and sent to the amplifier and speaker.
+ *
+ *
+ * The DSP part uses a message based protocol instead of register like API because a handshake mechanism with the SW running on the DSP is required.
+ * The actual settings cannot be applied at any moment, but at an appropriate time by the embedded SW.
+ * This introduces a small delay (order of millisecond).
+ *
+ * See TFA98xx/inc/TFA98xx.h for more detailed information on the API.
+ *
+ * <b>Note:</b> The API focuses on the operational usage of the IC as it would be used in an embedded environment (mobile phone, tablet, …).
+ * As such, not all I2C registers or possibilities of the IC are captured in an API call (e.g. setting calibrate once bit).
+ *
+ *
+ */

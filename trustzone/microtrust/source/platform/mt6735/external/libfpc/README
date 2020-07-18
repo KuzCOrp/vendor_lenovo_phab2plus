@@ -1,0 +1,11 @@
+WHAT IT DOES?
+=============
+This package is a library of FPC fingerprint.
+
+HOW IT WAS BUILT?
+==================
+This package is built with Android related libraries. 
+
+HOW TO USE IT?
+==============
+This package will be linked related APP which requires fingerprint function.

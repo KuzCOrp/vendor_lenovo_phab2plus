@@ -1,0 +1,90 @@
+#
+# CLI Maximus commands def for gengetopt
+#
+package "climax"
+version "3.1"
+description "Command Line Interface for MAXimus\nNXP SemiConductors Smart Amplifier: TFA98xx"
+
+text "\n Device operation options:"
+option "start"     - "device power up and start"  optional
+option "stop"      - "device stop and power down" optional 
+option "volume"	   v "set volume step"
+			int typestr="step" optional multiple
+option "profile"    P "set the (new) profile for current operation" optional
+                        int typestr="profilenr" argoptional
+
+# Generic
+text " Generic options:"
+option "device"		d "target name for the interface: i2c, serial, socket, i2c dummy" 
+						string typestr="/dev/i2c-x|/dev/ttyUSBx|host:port|dummy" optional
+option "resetMtpEx" - "reset MtpEx register to do re-calibration" optional
+option "reset"    R "initialize I2C registers and set ACS. After the command, the state is same power on reset." optional
+# Speaker boost
+text " Speaker boost options:"
+option "calibrate"  a "do calibration with loaded speaker file, --output returns updated speaker file" optional
+                        string typestr="once|always" default="always" argoptional
+option "calshow"    A "show calibration impedance value" optional
+option "params"     p "write the params file directly to the device; depending on header type: patch, speaker, preset, config, drc, eq " 
+						string typestr="parameter file name" optional multiple
+option "re0"         - "set specified re0 or read the current re0"
+                        optional float typestr="re0" argoptional hidden
+option "dsp"        D "DSP get speakerboost params, use --count to set bytecount" optional
+                        int typestr="hex"   default="0x80" argoptional                     
+option "save" s "write settings to binary file without header. the file type extension must be specified as .eq.bin, .speaker.bin, etc"  optional
+                        string typestr="filename.<type>.bin"	
+# diagnostics
+text " Diagnostics and test options:"
+option "currentprof"   - "set the currently (loaded) runing profile to force transition to new profile. This options should be used with profile option" optional
+                        int typestr="profilenr"  dependon="profile"
+option "tone"	-	"Set the tone detection off or on" optional hidden int typestr="on/off"
+option "versions"	V "print versions and chip rev" optional
+option "register"	r "read tfa register, write if extra arg given" # e.g. -r9=1" 
+						int typestr="offset[,value]" optional multiple
+option "regwrite"	w "write value for register"
+						int typestr="hex" optional multiple hidden
+option "dump"   -   "dump all defined registers" optional		
+option "pin"        - "control devkit signal pin" optional hidden
+                        int typestr="pin" 
+option "diag"	-   "run all tests, or single if testnr; optional extra argument: [i2s|dsp|sb|pins]" 
+						optional int typestr="testnr"  default="0" argoptional
+option "xmem"      x "access (read/write) tfa xmem"
+                        int typestr="offset[,value]" optional multiple
+# lifetime test support
+text " Live data options:"
+option "dumpmodel"   -   "dump current speakermodel impedance=z or excursion=x" optional
+						optional string typestr="x|z"  default="z" argoptional						
+option "record" -  "record speaker state info via I2C and display" 
+						optional int typestr="msInterval" default="55" argoptional
+option"count"  -   "number of read cycles to execute, 0 means forever"
+ 						optional int typestr="cycles" 
+option "output" o  "specify the output file for binary speaker state info records, default=stdout"
+					    optional string typestr="filename" 
+option "logger" -  "start datalogger, recording <count> state info lines and binary Z/Xmodels" 
+                        optional int typestr="sInterval" default="2" argoptional
+
+# generic stuff
+text " Container file handling options:"
+option "ini2cnt"      -  "Generate the container file from an ini file <this>.ini to <this>.cnt"  optional 
+                        string typestr="filename.ini"
+option "bin2hdr"    -  "Generate a file with header from input binary file.<type> [customer] [application] [type]. Original file is backed up as file.<type>.old file"  optional 
+                        string typestr="file.<type>"
+option "maximus" m "provide the maximus device type"  optional 
+                        int typestr="maX_type" default="1"
+# generic stuff
+text " Generic options:"
+option "load"       l "read parameter settings from container file" optional
+                        string typestr="filename.cnt"
+option "splitparms" - "save parameters of the loaded container file to seperate parameter files"      
+                        optional dependon="load"                
+option "server"	    - "run as server (for Linux only, default=`9887')" optional
+                        string typestr="port" default="9887" argoptional
+option "client"	    - "run as client (for Linux only, default=`9887')" optional
+                        string typestr="port" default="9887" argoptional
+option "slave" - "override hardcoded I2C slave address"  optional int typestr="i2c address"
+option "loop"       L "loop the operation [0=forever]" int  typestr="count"  optional
+option "verbose"    b "Enable verbose (mask=timing|i2cserver|socket|scribo)"   int  typestr="mask" optional argoptional
+option "trace"      t "Enable I2C transaction tracing to stdout/file"    optional
+                     string typestr="filename" argoptional
+option "quiet"      q "Suppress printing to stdout"  optional 
+
+# For detailed gengetopt information see http://www.gnu.org/software/gengetopt/gengetopt.html
